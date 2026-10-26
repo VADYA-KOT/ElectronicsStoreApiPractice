@@ -1,0 +1,17 @@
+@BaseUrl = http://localhost:5248
+
+### Получить все товары
+GET {{BaseUrl}}/api/products
+Accept: application/json
+
+###
+
+### Получить товар с ID 4
+GET {{BaseUrl}}/api/products/4
+Accept: application/json
+
+###
+
+### Получить товары с фильтрацией и сортировкой
+GET {{BaseUrl}}/api/products?minPrice=10&sortBy=price&descending=true&page=1&pageSize=5
+Accept: application/json

@@ -1,0 +1,28 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Результаты сборки
+**/bin/
+**/obj/
+
+# Результаты тестирования
+**/TestResults/
+*.trx
+*.coverage
+*.coveragexml
+
+# Локальные логи
+*.log
+
+# Локальные секреты и переменные окружения
+.env
+.env.*
+!.env.example
+
+# Локальная конфигурация разработки
+**/appsettings.Development.json
+appsettings.*.Local.json
