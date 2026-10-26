@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ElectronicsStoreApiPractice.DTOs.Requests;
 using ElectronicsStoreApiPractice.DTOs.Response;
 using ElectronicsStoreApiPractice.Data;
+using ElectronicsStoreApiPractice.Models;
 
 namespace ElectronicsStoreApiPractice.Controllers;
 

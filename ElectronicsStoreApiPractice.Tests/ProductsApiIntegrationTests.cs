@@ -1,10 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
+﻿using System.Net;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using ElectronicsStoreApiPractice.Data;
 using ElectronicsStoreApiPractice.DTOs.Response;
+using ElectronicsStoreApiPractice.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;

@@ -3,6 +3,8 @@ using Xunit;
 using System.Linq;
 using ElectronicsStoreApiPractice.Services;
 using ElectronicsStoreApiPractice.Data;
+using ElectronicsStoreApiPractice.Models;
+using ElectronicsStoreApiPractice.DTOs.Requests;
 
 
 namespace ElectronicsStoreApiPractice.Tests;
