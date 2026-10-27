@@ -1,8 +1,6 @@
 # ElectronicsStoreApiPractice
 
-An educational REST API for managing an electronics store, built with C# and ASP.NET Core.
-
-The project demonstrates backend development concepts, database integration, authentication, authorization, input validation, and automated testing.
+A REST API for managing an electronics store, built with C# and ASP.NET Core. It provides product and category management, JWT-based authentication, role-based authorization, PostgreSQL persistence, request validation, and automated tests.
 
 ## Technologies
 
@@ -166,6 +164,4 @@ Protected product-management and category-creation endpoints require the appropr
 
 ## Project status
 
-This is a learning and portfolio project developed to practise building and testing an ASP.NET Core backend API.
-
-The project is intended to demonstrate an understanding of API design, data persistence, authentication, authorization, validation, containerization, and automated testing.
+The API combines product and category management, authentication and authorization, database persistence, validation, containerization, and automated testing in a single backend service.
