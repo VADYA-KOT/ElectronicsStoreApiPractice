@@ -65,6 +65,8 @@ public class StoreDbContext : DbContext
             .HasColumnName("price")
             .HasPrecision(10, 2);
 
+        product.HasIndex(p => p.Price);
+
         product.Property(p => p.Quantity)
             .HasColumnName("quantity");
 
