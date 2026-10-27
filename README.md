@@ -13,6 +13,7 @@ The project demonstrates backend development concepts, database integration, aut
 - PostgreSQL
 - Npgsql
 - JWT Bearer Authentication
+- Docker and Docker Compose
 - xUnit
 - ASP.NET Core integration testing
 
@@ -53,13 +54,72 @@ The automated tests use an isolated EF Core InMemory database where configured. 
 
 ## Getting started
 
-### Prerequisites
+### Option 1: Run with Docker Compose
 
+Prerequisites:
+- Docker Desktop with Docker Compose.
+- The .NET 10 SDK and the EF Core CLI if you need to apply migrations from the host machine.
+
+Create a file named `.env` in the repository root. Do not commit this file:
+
+```dotenv
+POSTGRES_DB=electronics_store
+POSTGRES_USER=store_user
+POSTGRES_PASSWORD=replace_with_a_local_password
+JWT_ISSUER=ElectronicsStoreApiPractice
+JWT_AUDIENCE=ElectronicsStoreApiPracticeClient
+JWT_KEY=replace_with_a_base64_encoded_key
+```
+
+The JWT key must be valid Base64 and decode to a sufficiently long random key. You can generate a 32-byte key in PowerShell:
+
+```powershell
+[Convert]::ToBase64String([Security.Cryptography.RandomNumberGenerator]::GetBytes(32))
+```
+
+Copy the generated value into `JWT_KEY` in `.env`. Use your own local database password. Never publish real credentials or signing keys.
+
+Build and start the containers from the repository root:
+
+```powershell
+docker compose up -d --build
+docker compose ps
+docker compose logs api
+```
+
+The API is exposed at `http://localhost:8081`. PostgreSQL is exposed to the host at port `5435`; inside the Compose network, the API connects to the database service using host `db` and port `5432`.
+
+#### Apply database migrations
+
+The current Compose configuration starts the database and API but does not apply Entity Framework Core migrations automatically. Apply migrations before using endpoints that access database tables.
+
+Make sure the API project's effective `ConnectionStrings:DefaultConnection` points to the Compose database from the host, using `localhost:5435`, and that the required JWT settings are configured. Then run from the repository root:
+
+```powershell
+dotnet ef database update --project .\WebApplication1ElectronicsStoreApiPractice\ElectronicsStoreApiPractice.csproj
+```
+
+This command requires the EF Core CLI (`dotnet-ef`) to be installed. The connection string used by this command comes from the API project's configuration and must target the database you intend to update.
+
+Useful commands:
+
+```powershell
+docker compose ps
+docker compose logs api
+docker compose logs db
+docker compose down
+```
+
+The named database volume preserves PostgreSQL data when containers are stopped or removed with `docker compose down`. **Do not run `docker compose down -v` unless you intentionally want to delete the database volume and its data.**
+
+### Option 2: Run locally
+
+Prerequisites:
 - .NET 10 SDK
 - PostgreSQL
 - Visual Studio or another .NET-compatible development environment
 
-### Configuration
+#### Configuration
 
 Configure the following settings using .NET User Secrets or environment variables:
 
@@ -70,7 +130,7 @@ Configure the following settings using .NET User Secrets or environment variable
 
 Do not commit database passwords, signing keys, or other secrets to source control.
 
-### Database setup
+#### Database setup
 
 1. Create a PostgreSQL database.
 2. Configure the connection string and JWT settings.
@@ -78,7 +138,7 @@ Do not commit database passwords, signing keys, or other secrets to source contr
 
    `Update-Database`
 
-### Run the application
+#### Run the application
 
 Open the solution in Visual Studio, select the API project as the startup project, and run it.
 
@@ -108,4 +168,4 @@ Protected product-management and category-creation endpoints require the appropr
 
 This is a learning and portfolio project developed to practise building and testing an ASP.NET Core backend API.
 
-The project is intended to demonstrate an understanding of API design, data persistence, authentication, authorization, validation, and automated testing.
+The project is intended to demonstrate an understanding of API design, data persistence, authentication, authorization, validation, containerization, and automated testing.
