@@ -87,17 +87,24 @@ docker compose logs api
 
 The API is exposed at `http://localhost:8081`. PostgreSQL is exposed to the host at port `5435`; inside the Compose network, the API connects to the database service using host `db` and port `5432`.
 
-#### Apply database migrations
+#### Database migrations
 
-The current Compose configuration starts the database and API but does not apply Entity Framework Core migrations automatically. Apply migrations before using endpoints that access database tables.
+Docker Compose runs a dedicated `migrate` service after PostgreSQL becomes healthy. The service applies Entity Framework Core migrations and exits; the API starts only if the migration service completes successfully. You do not need to run `dotnet ef database update` manually when starting the stack with Compose.
 
-Make sure the API project's effective `ConnectionStrings:DefaultConnection` points to the Compose database from the host, using `localhost:5435`, and that the required JWT settings are configured. Then run from the repository root:
+The migration service uses the .NET SDK image and the EF Core CLI version matching the project's EF Core tools package. It receives the database connection string and JWT configuration through environment variables, just like the API. Keep the `.env` file local and never commit real credentials or signing keys.
+
+To inspect the migration service:
 
 ```powershell
-dotnet ef database update --project .\WebApplication1ElectronicsStoreApiPractice\ElectronicsStoreApiPractice.csproj
+docker compose logs migrate
+docker compose ps -a
 ```
 
-This command requires the EF Core CLI (`dotnet-ef`) to be installed. The connection string used by this command comes from the API project's configuration and must target the database you intend to update.
+If a migration fails, the API will not start. Review the migration logs, correct the reported configuration or migration issue, and rerun:
+
+```powershell
+docker compose up -d --build
+```
 
 Useful commands:
 
