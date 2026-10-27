@@ -22,7 +22,7 @@ namespace ElectronicsStoreApiPractice.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("ElectronicsStoreApiPractice.AppUser", b =>
+            modelBuilder.Entity("ElectronicsStoreApiPractice.Models.AppUser", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -63,7 +63,7 @@ namespace ElectronicsStoreApiPractice.Migrations
                     b.ToTable("AppUsers");
                 });
 
-            modelBuilder.Entity("ElectronicsStoreApiPractice.Category", b =>
+            modelBuilder.Entity("ElectronicsStoreApiPractice.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .HasColumnType("integer")
@@ -82,7 +82,7 @@ namespace ElectronicsStoreApiPractice.Migrations
                     b.ToTable("categories", (string)null);
                 });
 
-            modelBuilder.Entity("ElectronicsStoreApiPractice.Product", b =>
+            modelBuilder.Entity("ElectronicsStoreApiPractice.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -117,6 +117,8 @@ namespace ElectronicsStoreApiPractice.Migrations
 
                     b.HasIndex("CategoryId");
 
+                    b.HasIndex("Price");
+
                     b.ToTable("products", null, t =>
                         {
                             t.HasCheckConstraint("CK_products_price_positive", "price > 0");
@@ -125,16 +127,16 @@ namespace ElectronicsStoreApiPractice.Migrations
                         });
                 });
 
-            modelBuilder.Entity("ElectronicsStoreApiPractice.Product", b =>
+            modelBuilder.Entity("ElectronicsStoreApiPractice.Models.Product", b =>
                 {
-                    b.HasOne("ElectronicsStoreApiPractice.Category", "Category")
+                    b.HasOne("ElectronicsStoreApiPractice.Models.Category", "Category")
                         .WithMany("Products")
                         .HasForeignKey("CategoryId");
 
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("ElectronicsStoreApiPractice.Category", b =>
+            modelBuilder.Entity("ElectronicsStoreApiPractice.Models.Category", b =>
                 {
                     b.Navigation("Products");
                 });
